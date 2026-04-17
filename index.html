@@ -4,33 +4,487 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Blog</title>
+    <title>Culinary Chronicles - Food Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-section h1 {
+            color: #f39c12;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #f39c12;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #f39c12;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 600px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1495567720989-cebdbdd97913?w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        }
+
+        .cta-button {
+            background: #f39c12;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4);
+        }
+
+        /* Main Content */
+        main {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+            padding: 3rem 2rem;
+            background: #f8f9fa;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar */
+        aside {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        aside h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #f39c12;
+            padding-bottom: 0.5rem;
+        }
+
+        .category {
+            margin-bottom: 1rem;
+        }
+
+        .category a {
+            color: #34495e;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 0.5rem;
+            border-left: 3px solid transparent;
+        }
+
+        .category a:hover {
+            border-left-color: #f39c12;
+            padding-left: 1rem;
+            color: #f39c12;
+        }
+
+        /* Recipe Cards */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .recipe-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .recipe-card:hover .recipe-image {
+            transform: scale(1.05);
+        }
+
+        .recipe-info {
+            padding: 1.5rem;
+        }
+
+        .recipe-info h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .recipe-meta {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .recipe-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .recipe-description {
+            color: #555;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .read-more {
+            color: #f39c12;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #e67e22;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: #f39c12;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #f39c12;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bdc3c7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+                padding: 1.5rem 1rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header style="height: 100px;background-color: red;display: flex;">
-        <img src="./logo.png" alt="logo" width="50px" height="50px"/>
-        <h2>
-            Food Blogl
-        </h2>
+    <!-- Header -->
+    <header>
+        <div class="logo-section">
+            <h1>🍽️ Culinary Chronicles</h1>
+        </div>
         <nav>
-            <ul style="display: flex;list-style-type: none;">
-                <li>Home</li>
-                <li>About</li>
-                <li>Items</li>
-                <li>Bookings</li>
-                <li>Login</li>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#recipes">Recipes</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
-    <main style="height: 1600px;background-color: antiquewhite;">
-        <div style="display: flex;">
-        <article style="height:1600px;background-color: black;width: 30%;"></article>
-        <section style="height:1600px; width:70%;background-color: blueviolet;">
-</div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>Discover Culinary Excellence</h2>
+            <p>Explore amazing recipes and food stories from around the world</p>
+            <button class="cta-button">Explore Recipes</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main id="recipes">
+        <!-- Sidebar -->
+        <aside>
+            <h3>Categories</h3>
+            <div class="category">
+                <a href="#">🍝 Pasta</a>
+                <a href="#">🍜 Asian Cuisine</a>
+                <a href="#">🥗 Salads</a>
+                <a href="#">🍰 Desserts</a>
+                <a href="#">🍲 Soups</a>
+                <a href="#">🥘 Main Courses</a>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Popular Tags</h3>
+            <div class="category">
+                <a href="#">Healthy</a>
+                <a href="#">Quick & Easy</a>
+                <a href="#">Vegetarian</a>
+                <a href="#">Budget Friendly</a>
+                <a href="#">Family Favorite</a>
+            </div>
+        </aside>
+
+        <!-- Recipe Grid -->
+        <section>
+            <div class="recipes-grid">
+                <!-- Recipe Card 1 -->
+                <article class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&q=80" alt="Delicious Burger" class="recipe-image">
+                    <div class="recipe-info">
+                        <h3>Gourmet Burger Delight</h3>
+                        <div class="recipe-meta">
+                            <span>⏱️ 30 min</span>
+                            <span>👥 4 servings</span>
+                            <span>⭐ Easy</span>
+                        </div>
+                        <p class="recipe-description">Learn how to make the perfect gourmet burger with fresh ingredients and unique flavors.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 2 -->
+                <article class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80" alt="Healthy Salad" class="recipe-image">
+                    <div class="recipe-info">
+                        <h3>Fresh Green Salad</h3>
+                        <div class="recipe-meta">
+                            <span>⏱️ 15 min</span>
+                            <span>👥 2 servings</span>
+                            <span>⭐ Very Easy</span>
+                        </div>
+                        <p class="recipe-description">A vibrant and nutritious salad packed with fresh vegetables and a delicious homemade vinaigrette.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 3 -->
+                <article class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561404?w=400&q=80" alt="Delicious Pizza" class="recipe-image">
+                    <div class="recipe-info">
+                        <h3>Homemade Wood-Fired Pizza</h3>
+                        <div class="recipe-meta">
+                            <span>⏱️ 45 min</span>
+                            <span>👥 6 servings</span>
+                            <span>⭐ Medium</span>
+                        </div>
+                        <p class="recipe-description">Create restaurant-quality pizza at home with crispy crust and authentic toppings.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 4 -->
+                <article class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80" alt="Pasta Dish" class="recipe-image">
+                    <div class="recipe-info">
+                        <h3>Creamy Pasta Carbonara</h3>
+                        <div class="recipe-meta">
+                            <span>⏱️ 25 min</span>
+                            <span>👥 4 servings</span>
+                            <span>⭐ Easy</span>
+                        </div>
+                        <p class="recipe-description">An authentic Italian pasta dish with a rich and creamy sauce that's surprisingly simple to make.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 5 -->
+                <article class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=80" alt="Asian Noodles" class="recipe-image">
+                    <div class="recipe-info">
+                        <h3>Spicy Asian Noodles</h3>
+                        <div class="recipe-meta">
+                            <span>⏱️ 20 min</span>
+                            <span>👥 2 servings</span>
+                            <span>⭐ Easy</span>
+                        </div>
+                        <p class="recipe-description">Bold and flavorful Asian noodles with a perfect balance of spice, sweetness, and umami.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <!-- Recipe Card 6 -->
+                <article class="recipe-card">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&q=80" alt="Chocolate Cake" class="recipe-image">
+                    <div class="recipe-info">
+                        <h3>Decadent Chocolate Cake</h3>
+                        <div class="recipe-meta">
+                            <span>⏱️ 60 min</span>
+                            <span>👥 8 servings</span>
+                            <span>⭐ Medium</span>
+                        </div>
+                        <p class="recipe-description">A rich and moist chocolate cake that's perfect for any celebration or treat yourself moment.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+            </div>
         </section>
     </main>
-    <footer style="height: 400px; background-color: red;">
 
+    <!-- Footer -->
+    <footer id="about">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>Culinary Chronicles is your ultimate destination for food inspiration, recipes, and cooking tips from around the world.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Latest Recipes</a></li>
+                    <li><a href="#">Popular Categories</a></li>
+                    <li><a href="#">Meal Plans</a></li>
+                    <li><a href="#">Subscribe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">Email: info@culinarychronicles.com</a></li>
+                    <li><a href="#">Phone: +1 (555) 123-4567</a></li>
+                    <li><a href="#">Follow us on social media</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Culinary Chronicles. All rights reserved. | Images from Unsplash</p>
+        </div>
     </footer>
 </body>
 </html>
